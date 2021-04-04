@@ -4,18 +4,17 @@
 #ifndef _BOOK_H_
 #define _BOOK_H_
 
-template<class T>
 class Book{
     private:
-        T title;
-        T author;
-        T ISBN;
-        T quantity;
+        std::string title;
+        std:: string author;
+        int ISBN;
+        int quantity;
     public:
-        Book();
-        T addBook();
+        Book(std::string title, std::string author, int ISBN, int quantity);
+        void addBook();
         void searchBook();
-        T removeBook();
+        void removeBook();
     
 };
 
