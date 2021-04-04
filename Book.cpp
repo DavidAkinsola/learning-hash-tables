@@ -7,8 +7,8 @@
 #include "Book.h"
 
 
-template<class T>
-Book<T>::Book(T title, T author, int ISBN, int quantity ){
+
+Book::Book(std::string title, std::string author, int ISBN, int quantity ){
   this->title = title;
   this->author = author;
   this->ISBN = ISBN;
@@ -16,18 +16,18 @@ Book<T>::Book(T title, T author, int ISBN, int quantity ){
 
 }
 
-template<class T>
-T Book<T>::addBook(){
+
+void Book::addBook(){
 
 }
 
-template<class T>
-void Book<T>::searchBook(){
+
+void Book::searchBook(){
 
 }
 
-template<class T>
-T Book<T>::removeBook(){
+
+void Book::removeBook(){
 
 }
 
