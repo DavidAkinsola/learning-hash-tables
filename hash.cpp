@@ -3,7 +3,7 @@
 #include <string>
 #include <list>
 
-class Hash{
+/*class Hash{
   private:
     static const int hashgroup = 10;
     std::list<std::pair<int, std::string>>table[hashgroup];
@@ -11,9 +11,9 @@ class Hash{
     public:
       bool isEmpty() const;
       int function(int key);
-      void insertItem(int key, std::string t);
-      void removeItem(int key);
-      void searchItem(int key);
+      void insertbook(int key, std::string t);
+      void removebook(int key);
+      void searchbook(int key);
       void getTable();
       
 
@@ -35,7 +35,7 @@ int Hash::function(int key){
     return key % hashgroup;
 }
 
-void Hash::insertItem(int key, std::string t){
+void Hash::insertbook(int key, std::string t){
     int hashVal = function(key);
     auto& cell = table[hashVal];
     auto bItr = begin(cell);//iteration from the begining
@@ -57,7 +57,7 @@ void Hash::insertItem(int key, std::string t){
 
 }
 
-void Hash::removeItem(int key){
+void Hash::removebook(int key){
     int hashVal = function(key);
     auto& cell = table[hashVal];
     auto bItr = begin(cell);//iteration from the begining
@@ -66,7 +66,7 @@ void Hash::removeItem(int key){
         if(bItr->first == key){
             keyExists = true;
             bItr = cell.erase(bItr);
-            std::cout<< "item removed"<< std::endl;
+            std::cout<< "book removed"<< std::endl;
             break;
 
         }
@@ -79,7 +79,7 @@ void Hash::removeItem(int key){
     return;
 }
 
-void Hash:: searchItem(int key){
+void Hash:: searchbook(int key){
     int hashVal = function(key);
     auto& cell = table[hashVal];
     auto bItr = begin(cell);//iteration from the begining
@@ -122,21 +122,21 @@ int main(){
         std::cout<<"failed"<<std::endl;
     }
 
-    h.insertItem(155, "a");
-    h.insertItem(156, "b");
-    h.insertItem(153, "c");
-    h.insertItem(167, "d");
-    h.insertItem(138, "e");
-    h.insertItem(148, "f");
-    h.insertItem(169, "g");
-    h.insertItem(177, "h");
-    h.insertItem(120, "i");
-    h.insertItem(131, "j");
-    h.insertItem(191, "k");
+    h.insertbook(155, "a");
+    h.insertbook(156, "b");
+    h.insertbook(153, "c");
+    h.insertbook(167, "d");
+    h.insertbook(138, "e");
+    h.insertbook(148, "f");
+    h.insertbook(169, "g");
+    h.insertbook(177, "h");
+    h.insertbook(120, "i");
+    h.insertbook(131, "j");
+    h.insertbook(191, "k");
 
     h.getTable();
 
-    h.searchItem(169);
+    h.searchbook(169);
 
     
 
@@ -150,4 +150,139 @@ int main(){
     return 0;
 
 
+}*/
+
+
+class Hash{
+    private:
+        static const int tableSize = 100;
+
+        struct book{
+            std:: string title;
+            std:: string author;
+            int ISBN;
+            int qty;
+
+            book* next;
+
+        };
+
+        book* hashTable[tableSize];
+
+
+    public:
+    Hash();
+    int function(std::string key);
+    void add(std::string title, std::string author, int ISBN, int qty);
+    int numberOfBooks(int index);
+    void PrintTable();
+
+};
+
+Hash::Hash(){
+    for(int i = 0; i<tableSize; i++){
+        hashTable[i] = new book;
+        hashTable[i]->title = "noTitle";
+        hashTable[i]->author = "noAuthor";
+        hashTable[i]->ISBN = 0;
+        hashTable[i]->qty = 0;
+        hashTable[i]->next = NULL;
+    }
+}
+
+int Hash::function(std::string key){
+
+    int hash = 0;
+    int index;
+
+    
+
+    for(int i; i<key.length(); i++){
+
+        hash += (int)key[i];
+
+    }
+
+    index = hash % tableSize;
+
+    std::cout<<index<<std::endl;
+
+
+    return index;
+
+}
+
+void Hash::add(std::string title, std::string author, int ISBN, int qty){
+    int index = function(title);
+
+    if(hashTable[index]->title == "noTitle"){
+        hashTable[index]->title = title;
+        hashTable[index]->author = author;
+        hashTable[index]->ISBN = ISBN;
+        hashTable[index]->qty = qty;
+    }else{
+        book* p = hashTable[index];
+        book* np = new book;
+
+        np->title = title;
+        np->author = author;
+        np->ISBN = ISBN;
+        np->qty = qty;
+        np->next = NULL;
+
+        while(p->next != NULL){
+            p = p->next;
+        }
+
+        p->next = np;
+    }
+}
+
+//count number of items/books in index
+int Hash::numberOfBooks(int index){
+
+    int count = 0;
+
+    if(hashTable[index]->title =="noTitle"){
+        return count;
+    }else{
+        count++;
+
+        book* p = hashTable[index];
+
+        while(p->next!=NULL){
+            count++;
+            p=p->next;
+        }
+    }
+
+    return count;
+}
+
+void Hash::PrintTable(){
+    
+    int number;
+
+    for(int i=0; i<tableSize; i++){
+
+        number = numberOfBooks(i);
+        std::cout<<"--------------------\n";
+        std::cout<<"index = "<< i << std::endl;
+        std::cout<<"title = "<< hashTable[i]->title << std::endl;
+        std::cout<<"author = "<< hashTable[i]->author << std::endl;
+        std::cout<<"ISBN = "<< hashTable[i]->ISBN << std::endl;
+        std::cout<<"quantity = "<< hashTable[i]->qty << std::endl;
+        std::cout<<"No of books"<< number << std::endl;
+        std::cout<<"--------------------\n";
+
+
+    }
+}
+
+
+int main(){
+    Hash h;
+
+
+    
 }
