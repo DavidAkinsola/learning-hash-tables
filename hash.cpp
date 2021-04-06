@@ -155,7 +155,7 @@ int main(){
 
 class Hash{
     private:
-        static const int tableSize = 100;
+        static const int tableSize = 10;
 
         struct book{
             std:: string title;
@@ -176,6 +176,9 @@ class Hash{
     void add(std::string title, std::string author, int ISBN, int qty);
     int numberOfBooks(int index);
     void PrintTable();
+    void PrintAllBooks(int index);
+    void findAuthor(std::string title);
+    void removeBook(std::string title);
 
 };
 
@@ -195,25 +198,30 @@ int Hash::function(std::string key){
     int hash = 0;
     int index;
 
-    
-
     for(int i; i<key.length(); i++){
-
         hash += (int)key[i];
-
     }
 
     index = hash % tableSize;
 
-    std::cout<<index<<std::endl;
-
-
+    std::cout<<hash<<std::endl;
     return index;
-
 }
 
 void Hash::add(std::string title, std::string author, int ISBN, int qty){
-    int index = function(title);
+    
+    int hash = 0;
+    int index;
+
+    for(int i; i<title.length(); i++){
+        hash += (int)title[i];
+    }
+
+    index = hash % tableSize;
+    std::cout<<index<<std::endl;
+    
+    //int index = function(title);
+    //function tends to only return 0;
 
     if(hashTable[index]->title == "noTitle"){
         hashTable[index]->title = title;
@@ -237,6 +245,8 @@ void Hash::add(std::string title, std::string author, int ISBN, int qty){
         p->next = np;
     }
 }
+
+
 
 //count number of items/books in index
 int Hash::numberOfBooks(int index){
@@ -279,9 +289,91 @@ void Hash::PrintTable(){
     }
 }
 
+void Hash::PrintAllBooks(int index){
+    book* p = hashTable[index];
+
+    if(p->title =="noTitle"){
+        std::cout<<"index = "<<index<<" is empty";
+    }else{
+        std::cout<<"index "<<index<<" contains the following books:\n";
+
+        while(p!=NULL){
+            std::cout<<"--------\n";
+            std::cout<<p->title<<std::endl;
+            std::cout<<p->author<<std::endl;
+            std::cout<<p->ISBN<<std::endl;
+            std::cout<<p->qty<<std::endl;
+            std::cout<<"---------\n"<<std::endl;
+            p = p->next;
+
+
+
+        }
+    
+    }
+}
+
+void Hash::findAuthor(std::string title){
+    int hash = 0;
+    int index;
+
+    for(int i; i<title.length(); i++){
+        hash += (int)title[i];
+    }
+
+    index = hash % tableSize;
+    //std::cout<<index<<std::endl; 
+
+    bool found = false;
+    std::string auth;
+
+    book* p = hashTable[index];
+    while(p != NULL){
+        if(p->title == title){
+            found = true;
+            auth = p->author;
+        }
+        p = p->next;
+    }
+
+    if(found){
+        std::cout<<"the book '"<<title<<"' was written by: "<< auth<<std::endl;
+    }else{
+        std::cout<<"the book '"<<title<<"' does not exist"<<std::endl;
+    }
+}
+
+void Hash:: removeBook(std:: string title){
+    int hash = 0;
+    int index;
+
+    for(int i; i<title.length(); i++){
+        hash += (int)title[i];
+    }
+
+    index = hash % tableSize;
+    //std::cout<<index<<std::endl;
+
+    
+}
+
 
 int main(){
     Hash h;
+    
+    h.add("tire", "david", 4567, 7);
+    h.add("rob", "david", 4567, 7);
+    h.add("a b nhngh", "david", 4567, 7);
+    h.add("yawn", "david", 4567, 7);
+    h.add("rob patterson", "david", 4567, 7);
+    h.add("a nhn", "david", 4567, 7);
+
+    h.findAuthor("a b");
+
+    
+
+    
+
 
 
     
