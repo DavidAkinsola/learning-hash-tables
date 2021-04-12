@@ -351,8 +351,106 @@ void Hash:: removeBook(std:: string title){
         hash += (int)title[i];
     }
 
-    index = hash % tableSize;
+    index = hash % tableSize; 
     //std::cout<<index<<std::endl;
+
+    book* del;
+    book* p1;
+    book* p2;
+
+    /*
+    case 1 - index is empty
+    */
+
+    /*
+    case 2 
+    index is has only one book stored
+    */
+
+    /*
+    case 3
+    index is has more than one book stored
+    the match is the first book
+    */
+
+    /*
+    case 4 
+    index is has more than one book stored
+     - but there is no match
+     - but there is a match 
+    */
+
+    /*
+    case X
+    each tem in the indices have more than one book (hashtabel[index]->qty != 1)
+
+    hashtable[index]->qty -= 1; 
+    else: 
+        perform the functions according to the required case
+    */
+    if(hashTable[index]-> title =="noTitle" && hashTable[index]-> author =="noAuthor"){
+
+        std::cout<< title << " was not found \n";
+    }else if(hashTable[index]->title == title && hashTable[index]->next == NULL){
+
+        if(hashTable[index]->qty != 1){
+            hashTable[index]->qty -= 1;
+
+            std::cout<<"You removed a book titled: "<< title << "\n";
+        }else{
+            hashTable[index]->title = "noTitle";
+            hashTable[index]->author = "noAuthor";
+
+            std::cout<<"You removed a book titled: "<< title << "\n";
+        }
+
+        
+
+    }else if(hashTable[index]->title == title){
+
+        if(hashTable[index]->qty != 1){
+            hashTable[index]->qty -= 1;
+
+            std::cout<<"You removed a book titled: "<< title << "\n";
+        }else{
+            del = hashTable[index];
+            hashTable[index] = hashTable[index]->next;
+            delete del;
+
+            std::cout<<"You removed a book titled: "<< title << "\n";
+        }
+        
+        
+    }else{
+        p1 = hashTable[index]->next;
+        p2 = hashTable[index];
+
+        while(p1 != NULL && p1 -> title != title){
+            p2 = p1;
+            p1 = p1->next;
+        }
+
+        if(p1 == NULL){
+
+            std::cout<< title << " was not found \n";
+
+        }else{
+
+            if(p1->qty!=1){
+                p1->qty -= 1;
+
+                std::cout<<"You removed a book titled: "<< title << "\n";
+            }else{
+                del = p1;
+                p1 = p1->next;
+                p2->next = p1;
+
+                delete del;
+                std::cout<<"You removed a book titled: "<< title << "\n";
+            }
+            
+        }
+    }
 
     
 }
@@ -361,14 +459,21 @@ void Hash:: removeBook(std:: string title){
 int main(){
     Hash h;
     
-    h.add("tire", "david", 4567, 7);
+    h.add("tire", "david", 4567, 1);
     h.add("rob", "david", 4567, 7);
     h.add("a b nhngh", "david", 4567, 7);
     h.add("yawn", "david", 4567, 7);
-    h.add("rob patterson", "david", 4567, 7);
+    h.add("rob patterson", "david", 4567, 1);
     h.add("a nhn", "david", 4567, 7);
+    h.add("levels", "david", 4567, 3);
+    h.add("final", "david", 4567, 7);
+    h.add("ppppppp", "david", 4567, 1);
 
-    h.findAuthor("a b");
+    //h.removeBook("rob patterson");
+    h.removeBook("tired");
+    
+    h.PrintAllBooks(5);
+
 
     
 
