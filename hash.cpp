@@ -3,6 +3,12 @@
 #include <string>
 #include <list>
 
+#include <iomanip>
+#include <cstdlib>
+#include <sstream>
+
+#include <chrono>
+
 /*class Hash{
   private:
     static const int hashgroup = 10;
@@ -180,7 +186,47 @@ class Hash{
     void findAuthor(std::string title);
     void removeBook(std::string title);
 
+    void readFile(std::string file);
+
 };
+
+void Hash::readFile(std::string file){
+    std::string text;
+  std::string file;
+  std::cout<<"enter name of file: ";
+  std::cin>>file;
+
+  
+  std::ifstream infile(file);
+  if(infile.is_open()){
+    while(getline(infile, text)){
+
+        std::istringstream iss(text);
+        std::string title, author, ISBN, qty;
+        int isbn, quant;
+        getline(iss, title, '\t');
+        getline(iss, author, '\t');
+        getline(iss, ISBN, '\t');
+        getline(iss, qty, '\t');
+
+        std::istringstream(ISBN)>>isbn;
+        std::istringstream(qty)>>quant;
+
+        add(title, author, isbn, quant);
+
+//for printing each item
+/*
+        std::cout<<"title: "<<title<<"\n";
+        std::cout<<"author: "<<author<<"\n";
+        std::cout<<"isbn: "<<isbn<<"\n";
+        std::cout<<"quantity: "<<quant<<"\n";
+*/
+
+    }
+  }else{
+    std::cout<<"file could not be found"<<std::endl;
+  }
+}
 
 Hash::Hash(){
     for(int i = 0; i<tableSize; i++){
