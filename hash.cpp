@@ -12,7 +12,7 @@
 
 class Hash{
     private:
-        static const int tableSize = 10;
+        static const int tableSize = 50;
 
         struct book{
             std:: string title;
@@ -43,37 +43,41 @@ class Hash{
 
 void Hash::readFile(std::string file){
     std::string text;
-  std::string file;
-  std::cout<<"enter name of file: ";
-  std::cin>>file;
-
-  
-  std::ifstream infile(file);
-  if(infile.is_open()){
-    while(getline(infile, text)){
-
-        std::istringstream iss(text);
-        std::string title, author, ISBN, qty;
-        int isbn, quant;
-        getline(iss, title, '\t');
-        getline(iss, author, '\t');
-        getline(iss, ISBN, '\t');
-        getline(iss, qty, '\t');
-
-        std::istringstream(ISBN)>>isbn;
-        std::istringstream(qty)>>quant;
-
-        add(title, author, isbn, quant);
-
-//for printing each item
-/*
-        std::cout<<"title: "<<title<<"\n";
-        std::cout<<"author: "<<author<<"\n";
-        std::cout<<"isbn: "<<isbn<<"\n";
-        std::cout<<"quantity: "<<quant<<"\n";
+    std::string file;
+    
+    //allows user to input the name of file that contains data
+    /*
+    std::cout<<"enter name of file: ";
+    std::cin>>file;
+    std::ifstream infile(file);
 */
+    std::ifstream infile("books");
+   
+    if(infile.is_open()){
+        while(getline(infile, text)){
 
-    }
+            std::istringstream iss(text);
+            std::string title, author, ISBN, qty;
+            int isbn, quant;
+            getline(iss, title, '\t');
+            getline(iss, author, '\t');
+            getline(iss, ISBN, '\t');
+            getline(iss, qty, '\t');
+
+            std::istringstream(ISBN)>>isbn;
+            std::istringstream(qty)>>quant;
+
+            add(title, author, isbn, quant);
+
+    //for printing each item
+    
+            //std::cout<<"title: "<<title<<"\n";
+            //std::cout<<"author: "<<author<<"\n";
+            //std::cout<<"isbn: "<<isbn<<"\n";
+            //std::cout<<"quantity: "<<quant<<"\n";
+    
+
+        }
   }else{
     std::cout<<"file could not be found"<<std::endl;
   }
@@ -357,12 +361,12 @@ void Hash:: removeBook(std:: string title){
 
 
 int main(){
-    
-    /*
     Hash h;
+    /*
     
-    h.add("tire", "david", 4567, 1);
-    h.add("rob", "david", 4567, 7);
+    
+    
+    
     h.add("a b nhngh", "david", 4567, 7);
     h.add("yawn", "david", 4567, 7);
     h.add("rob patterson", "david", 4567, 1);
@@ -376,6 +380,43 @@ int main(){
     
     h.PrintAllBooks(5);
 */
+
+/*
+h.add("tire", "david", 4567, 1);
+h.add("rob", "david", 4567, 7);
+h.add("robbo", "david", 4567, 9);
+h.add("rob the boy", "david", 4567, 5);
+h.add("robert", "david", 4567, 7);
+h.add("a b nhngh", "david", 4567, 7);
+h.add("yawn", "david", 4567, 7);
+h.add("rob patterson", "david", 4567, 1);
+h.add("a nhn", "david", 4567, 7);
+h.add("levels", "david", 4567, 3);
+h.add("tir", "david", 4567, 1);
+h.add("ro", "david", 4567, 7);
+h.add("robyyyyybo", "david", 4567, 9);
+h.add("robtt the boy", "david", 4567, 5);
+h.add("diane", "david", 4567, 7);
+h.add("a b nhng", "david", 4567, 7);
+h.add("yawnder", "david", 4567, 7);
+h.add("rob patterson jr", "david", 4567, 1);
+h.add("a", "david", 4567, 7);
+h.add("coursework", "david", 4567, 3);
+
+
+*/
+
+auto start = std::chrono::steady_clock::now();
+
+h.findAuthor("robtt the boy");
+
+
+
+auto end = std::chrono::steady_clock::now();
+
+double elapsed = double (std::chrono::duration_cast <std::chrono::nanoseconds> (end - start).count());
+
+std::cout <<"time: "<<elapsed/1e9<<std::endl;
 
     
 
