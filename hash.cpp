@@ -9,155 +9,6 @@
 
 #include <chrono>
 
-/*class Hash{
-  private:
-    static const int hashgroup = 10;
-    std::list<std::pair<int, std::string>>table[hashgroup];
-
-    public:
-      bool isEmpty() const;
-      int function(int key);
-      void insertbook(int key, std::string t);
-      void removebook(int key);
-      void searchbook(int key);
-      void getTable();
-      
-
-};
-
-bool Hash::isEmpty() const{
-    int sum{};//brace initialization (sum = 0)
-    for(int i{}; i<hashgroup; i++){
-        sum+=table[i].size();
-    }
-
-    if (!sum){
-        return true;
-    }
-    return false;
-}
-
-int Hash::function(int key){
-    return key % hashgroup;
-}
-
-void Hash::insertbook(int key, std::string t){
-    int hashVal = function(key);
-    auto& cell = table[hashVal];
-    auto bItr = begin(cell);//iteration from the begining
-    bool keyExists = false;
-    for(; bItr != end(cell); bItr++){
-        if(bItr->first == key){
-            keyExists = true;
-            bItr->second = t;
-            std::cout<< "key exists. value replaced."<< std::endl;
-            break;
-
-        }
-    }
-    if(!keyExists){
-        cell.emplace_back(key, t);
-    }
-
-    return;
-
-}
-
-void Hash::removebook(int key){
-    int hashVal = function(key);
-    auto& cell = table[hashVal];
-    auto bItr = begin(cell);//iteration from the begining
-    bool keyExists = false;
-    for(; bItr != end(cell); bItr++){
-        if(bItr->first == key){
-            keyExists = true;
-            bItr = cell.erase(bItr);
-            std::cout<< "book removed"<< std::endl;
-            break;
-
-        }
-    }
-
-    if(!keyExists){
-        std::cout<<"key not found" <<std::endl;
-    }
-
-    return;
-}
-
-void Hash:: searchbook(int key){
-    int hashVal = function(key);
-    auto& cell = table[hashVal];
-    auto bItr = begin(cell);//iteration from the begining
-    bool keyExists = false;
-    for(; bItr != end(cell); bItr++){
-        if(bItr->first == key){
-            keyExists = true;
-            std::cout<< "\n\nsearch results...";
-            std::cout<< "key: " <<bItr->first<<" value: "<<bItr->second<<std::endl;
-            break;
-
-        }
-    }
-
-    if(!keyExists){
-        std::cout<<"key not found" <<std::endl;
-    }
-
-    return;
-}
-
-void Hash::getTable(){
-    for(int i{}; i<hashgroup; i++){
-        if(table[i].size()==0) continue;
-
-        auto bItr = table[i].begin();
-        for(; bItr!=table[i].end(); bItr++){
-            std::cout<< "key: " <<bItr->first<<"value: "<<bItr->second<<std::endl;
-        }
-    }
-    return;
-}
-
-int main(){
-    Hash h;
-
-    if(h.isEmpty()){
-        std::cout<<"success";
-    }else{
-        std::cout<<"failed"<<std::endl;
-    }
-
-    h.insertbook(155, "a");
-    h.insertbook(156, "b");
-    h.insertbook(153, "c");
-    h.insertbook(167, "d");
-    h.insertbook(138, "e");
-    h.insertbook(148, "f");
-    h.insertbook(169, "g");
-    h.insertbook(177, "h");
-    h.insertbook(120, "i");
-    h.insertbook(131, "j");
-    h.insertbook(191, "k");
-
-    h.getTable();
-
-    h.searchbook(169);
-
-    
-
-    if(h.isEmpty()){
-        std::cout<<"failed"<<std::endl;
-    }else{
-        std::cout<<"success"<<std::endl;
-    }
-
-
-    return 0;
-
-
-}*/
-
 
 class Hash{
     private:
@@ -228,6 +79,7 @@ void Hash::readFile(std::string file){
   }
 }
 
+//default constructor
 Hash::Hash(){
     for(int i = 0; i<tableSize; i++){
         hashTable[i] = new book;
@@ -239,6 +91,7 @@ Hash::Hash(){
     }
 }
 
+//hash function
 int Hash::function(std::string key){
 
     int hash = 0;
@@ -254,6 +107,7 @@ int Hash::function(std::string key){
     return index;
 }
 
+//add books to the table
 void Hash::add(std::string title, std::string author, int ISBN, int qty){
     
     int hash = 0;
@@ -294,7 +148,7 @@ void Hash::add(std::string title, std::string author, int ISBN, int qty){
 
 
 
-//count number of items/books in index
+//count number of books an index
 int Hash::numberOfBooks(int index){
 
     int count = 0;
@@ -315,6 +169,8 @@ int Hash::numberOfBooks(int index){
     return count;
 }
 
+//output the full table
+//displays number of books that are present in each index
 void Hash::PrintTable(){
     
     int number;
@@ -335,6 +191,7 @@ void Hash::PrintTable(){
     }
 }
 
+//displays all books in selected index
 void Hash::PrintAllBooks(int index){
     book* p = hashTable[index];
 
@@ -359,6 +216,7 @@ void Hash::PrintAllBooks(int index){
     }
 }
 
+//search functionality - helps find the author of each book by the title
 void Hash::findAuthor(std::string title){
     int hash = 0;
     int index;
@@ -389,6 +247,7 @@ void Hash::findAuthor(std::string title){
     }
 }
 
+//remove a copy of selected book from the table
 void Hash:: removeBook(std:: string title){
     int hash = 0;
     int index;
@@ -406,27 +265,20 @@ void Hash:: removeBook(std:: string title){
 
     /*
     case 1 - index is empty
-    */
-
-    /*
+    
     case 2 
     index is has only one book stored
-    */
-
-    /*
+     
     case 3
     index is has more than one book stored
     the match is the first book
-    */
-
-    /*
+    
     case 4 
     index is has more than one book stored
      - but there is no match
      - but there is a match 
-    */
+    
 
-    /*
     case X
     each tem in the indices have more than one book (hashtabel[index]->qty != 1)
 
@@ -434,6 +286,8 @@ void Hash:: removeBook(std:: string title){
     else: 
         perform the functions according to the required case
     */
+
+
     if(hashTable[index]-> title =="noTitle" && hashTable[index]-> author =="noAuthor"){
 
         std::cout<< title << " was not found \n";
@@ -503,6 +357,8 @@ void Hash:: removeBook(std:: string title){
 
 
 int main(){
+    
+    /*
     Hash h;
     
     h.add("tire", "david", 4567, 1);
@@ -519,13 +375,9 @@ int main(){
     h.removeBook("tired");
     
     h.PrintAllBooks(5);
-
-
-    
+*/
 
     
-
-
 
     
 }
