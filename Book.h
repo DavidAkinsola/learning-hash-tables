@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <fstream>
 
 #ifndef _BOOK_H_
 #define _BOOK_H_
@@ -11,9 +12,10 @@ class Book{
         int ISBN;
         int quantity;
     public:
-        Book(std::string title, std::string author, int ISBN, int quantity);
+        void start();
         void addBook();
         void searchBook();
+        void getBooks();
         void removeBook();
     
 };
